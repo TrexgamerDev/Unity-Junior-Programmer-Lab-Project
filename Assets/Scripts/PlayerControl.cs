@@ -11,10 +11,12 @@ public class PlayerControl : MonoBehaviour
     public float xBound = 10f;
     public GameObject bulletPrefab;
     public GameManager gameManager;
+    [SerializeField]
+    Animator playerAnimator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -85,8 +87,11 @@ public class PlayerControl : MonoBehaviour
     IEnumerator ShootRoutine()
     {
         canShoot = false;
+        playerAnimator.SetBool("Shoot_b", true);
         Instantiate(bulletPrefab, transform.position, transform.rotation);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
+        playerAnimator.SetBool("Shoot_b", false);
+        yield return new WaitForSeconds(0.5f);
         canShoot = true;
     }
 }
