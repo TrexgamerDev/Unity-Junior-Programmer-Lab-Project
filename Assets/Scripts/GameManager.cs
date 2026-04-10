@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     [SerializeField]
     GameObject titleScreen;
+    [SerializeField]
+    GameObject pauseScreen;
+    [SerializeField]
+    GameObject gameOverScreen;
     [SerializeField]
     GameObject enemySeekerPrefab;
     [SerializeField]
@@ -34,9 +39,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerControl.health <= 0)
+        if (playerControl.health <= 0 || score < 0)
         {
+            gameOverScreen.gameObject.SetActive(true);
             isGameActive = false;
+        }
+        if (isGameActive && playerControl.health > 0 && Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+        }
+        else if (!isGameActive && playerControl.health > 0 && Input.GetKeyDown(KeyCode.Escape))
+        {
+            UnpauseGame();
         }
         scoreText.text = "Score: " + score;
         healthText.text = "Health: " + playerControl.health;
@@ -48,6 +62,22 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnPowerUp", powerUpSpawnStart, powerUpSpawnInterval);
         isGameActive = true;
         titleScreen.gameObject.SetActive(false);
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    void PauseGame()
+    {
+        isGameActive = false;
+        Time.timeScale = 0;
+        pauseScreen.gameObject.SetActive(true);
+    }
+    void UnpauseGame()
+    {
+        isGameActive = true;
+        Time.timeScale = 1;
+        pauseScreen.gameObject.SetActive(false);
     }
     void SpawnEnemySeeker()
     {

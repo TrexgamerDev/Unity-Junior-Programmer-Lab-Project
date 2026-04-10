@@ -35,9 +35,9 @@ public class Enemy : MonoBehaviour
             gameManager.score++;
             Destroy(gameObject);
         }
-        else if (other.gameObject.CompareTag("Sensor"))
+        else if (other.gameObject.CompareTag("Sensor") && gameObject.CompareTag("EnemySeeker"))
         {
-            gameManager.score++;
+            gameManager.score--;
             Destroy(gameObject);
         }
     }
@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
     }
     void DestroyOutOfBounds()
     {
-        // Set the X axis bounds and destroy object if it goes out of bounds
+        // Set the X and Z axis bounds and destroy object if it goes out of bounds
         if (transform.position.x > playerControl.xBound || transform.position.x < -playerControl.xBound)
         {
             Destroy(gameObject);

@@ -62,7 +62,7 @@ public class PlayerControl : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Bullet"))
         {
-            health -= 2;
+            health--;
             Destroy(other.gameObject);
         }
         else if (other.gameObject.CompareTag("LifeUp"))
