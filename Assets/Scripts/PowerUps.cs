@@ -19,7 +19,7 @@ public class PowerUps : MonoBehaviour
     {
         if (gameManager.isGameActive)
         {
-            transform.Translate(Vector3.back * speed * Time.deltaTime);
+            transform.Translate(Vector3.back * speed * Time.deltaTime, Space.World);
         }
         DestroyOutOfBounds();
     }

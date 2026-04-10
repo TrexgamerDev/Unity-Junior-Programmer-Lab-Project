@@ -6,8 +6,8 @@ public class Enemy : MonoBehaviour
 {
     float speed = 8.5f;
     float bulletSpeed = 30f;
-    float enemyShotRate = 2f;
-    float enemyShootingStartDelay = 3f;
+    float enemyShotRate = 1f;
+    float enemyShootingStartDelay = 2f;
     float zBound = 14f;
     GameObject player;
     PlayerControl playerControl;
@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     public GameObject bulletPrefab;
     [SerializeField]
     GameObject gun;
+    [SerializeField]
+    AudioSource gunShot;
     public Animator enemyAnimator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,6 +35,10 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (gameObject.CompareTag("PlayerBullet"))
+        {
+            Destroy(gameObject);
+        }
         if (other.gameObject.CompareTag("PlayerBullet"))
         {
             gameManager.score++;
@@ -65,6 +71,7 @@ public class Enemy : MonoBehaviour
         while (gameObject.CompareTag("EnemyShooter") && gameManager.isGameActive)
         {
             enemyAnimator.SetBool("Shoot_b", true);
+            gunShot.PlayOneShot(gunShot.clip, 1f);
             Instantiate(bulletPrefab, gun.transform.position, transform.rotation);
             yield return new WaitForSeconds(0.5f);
             enemyAnimator.SetBool("Shoot_b", false);

@@ -15,6 +15,10 @@ public class PlayerControl : MonoBehaviour
     GameObject gun;
     [SerializeField]
     Animator playerAnimator;
+    [SerializeField]
+    AudioSource gunShot;
+    [SerializeField]
+    ParticleSystem speedUpParticle;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -82,14 +86,17 @@ public class PlayerControl : MonoBehaviour
     }
     IEnumerator SpeedUpRoutine()
     {
+        speedUpParticle.Play();
         speed = 15f;
         yield return new WaitForSeconds(5f);
         speed = 10f;
+        speedUpParticle.Stop();
     }
     IEnumerator ShootRoutine()
     {
         canShoot = false;
         playerAnimator.SetBool("Shoot_b", true);
+        gunShot.PlayOneShot(gunShot.clip, 1f);
         Instantiate(bulletPrefab, gun.transform.position, transform.rotation);
         yield return new WaitForSeconds(0.5f);
         playerAnimator.SetBool("Shoot_b", false);
