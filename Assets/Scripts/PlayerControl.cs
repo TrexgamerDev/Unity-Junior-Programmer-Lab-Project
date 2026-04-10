@@ -12,6 +12,8 @@ public class PlayerControl : MonoBehaviour
     public GameObject bulletPrefab;
     public GameManager gameManager;
     [SerializeField]
+    GameObject gun;
+    [SerializeField]
     Animator playerAnimator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -88,7 +90,7 @@ public class PlayerControl : MonoBehaviour
     {
         canShoot = false;
         playerAnimator.SetBool("Shoot_b", true);
-        Instantiate(bulletPrefab, transform.position, transform.rotation);
+        Instantiate(bulletPrefab, gun.transform.position, transform.rotation);
         yield return new WaitForSeconds(0.5f);
         playerAnimator.SetBool("Shoot_b", false);
         yield return new WaitForSeconds(0.5f);

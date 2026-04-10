@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     PlayerControl playerControl;
     GameManager gameManager;
     public GameObject bulletPrefab;
+    [SerializeField]
+    GameObject gun;
     public Animator enemyAnimator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -63,7 +65,7 @@ public class Enemy : MonoBehaviour
         while (gameObject.CompareTag("EnemyShooter") && gameManager.isGameActive)
         {
             enemyAnimator.SetBool("Shoot_b", true);
-            Instantiate(bulletPrefab, transform.position, transform.rotation);
+            Instantiate(bulletPrefab, gun.transform.position, transform.rotation);
             yield return new WaitForSeconds(0.5f);
             enemyAnimator.SetBool("Shoot_b", false);
             yield return new WaitForSeconds(enemyShotRate);
