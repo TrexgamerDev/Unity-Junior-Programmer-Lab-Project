@@ -1,8 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PowerUps : MonoBehaviour
 {
     float speed = 8f;
+    float zBound = 14f;
     GameManager gameManager;
     PlayerControl playerControl;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +26,10 @@ public class PowerUps : MonoBehaviour
     void DestroyOutOfBounds()
     {
         if (transform.position.x > playerControl.xBound || transform.position.x < -playerControl.xBound)
+        {
+            Destroy(gameObject);
+        }
+        if (transform.position.z > zBound || transform.position.z < -zBound)
         {
             Destroy(gameObject);
         }

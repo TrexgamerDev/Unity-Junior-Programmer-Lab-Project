@@ -131,6 +131,7 @@ MonoBehaviour:
   xBound: 10
   bulletPrefab: {fileID: 4913324448829165949, guid: 26914e4ca4ce7eb4289b4b5e781ac36d, type: 3}
   gameManager: {fileID: 0}
+  playerAnimator: {fileID: 0}
 --- !u!54 &1687358675383687046
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -208,18 +209,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: 814f4326a50812947b2469896d89a215, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5513821268127954568, guid: 814f4326a50812947b2469896d89a215, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5513821268127954568, guid: 814f4326a50812947b2469896d89a215, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5513821268127954568, guid: 814f4326a50812947b2469896d89a215, type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -6,20 +6,21 @@ public class Enemy : MonoBehaviour
 {
     float speed = 8.5f;
     float bulletSpeed = 30f;
-    float enemyShotRate = 3f;
-    float enemyShootingStartDelay = 5f;
+    float enemyShotRate = 2f;
+    float enemyShootingStartDelay = 3f;
     float zBound = 14f;
     GameObject player;
     PlayerControl playerControl;
     GameManager gameManager;
     public GameObject bulletPrefab;
+    public Animator enemyAnimator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         player = GameObject.Find("Player");
         playerControl = player.GetComponent<PlayerControl>();
-        InvokeRepeating("EnemyShooting", enemyShotRate, enemyShootingStartDelay);
+        StartCoroutine(ShootRoutine());
     }
 
     // Update is called once per frame
@@ -56,11 +57,16 @@ public class Enemy : MonoBehaviour
             transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
         }
     }
-    void EnemyShooting()
+    IEnumerator ShootRoutine()
     {
-        if (gameObject.CompareTag("EnemyShooter") && gameManager.isGameActive)
+        yield return new WaitForSeconds(enemyShootingStartDelay);
+        while (gameObject.CompareTag("EnemyShooter") && gameManager.isGameActive)
         {
+            enemyAnimator.SetBool("Shoot_b", true);
             Instantiate(bulletPrefab, transform.position, transform.rotation);
+            yield return new WaitForSeconds(0.5f);
+            enemyAnimator.SetBool("Shoot_b", false);
+            yield return new WaitForSeconds(enemyShotRate);
         }
     }
     void DestroyOutOfBounds()
