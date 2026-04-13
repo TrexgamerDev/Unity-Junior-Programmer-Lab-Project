@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     float enemyShooterSpawnStart = 7f;
     float powerUpSpawnInterval = 7f;
     float powerUpSpawnStart = 15f;
+    float maxHealth;
     PlayerControl playerControl;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI healthText;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
+        playerControl.health = 3;
         isGameActive = false;
     }
 
@@ -52,11 +54,22 @@ public class GameManager : MonoBehaviour
         {
             UnpauseGame();
         }
+        if (playerControl.health > maxHealth && maxHealth != 0)
+        {
+            playerControl.health = maxHealth;
+        }
         scoreText.text = "Score: " + score;
         healthText.text = "Health: " + playerControl.health;
     }
-    public void StartGame()
+    public void StartGame(int difficulty)
     {
+        if (difficulty == 1) { SetDifficultyMedium(); }
+        else if (difficulty == 2) { SetDifficultyHard(); }
+        else
+        {
+            playerControl.health = 3;
+            maxHealth = 1000;
+        }
         InvokeRepeating("SpawnEnemySeeker", enemySeekerSpawnStart, enemySeekerSpawnInterval);
         InvokeRepeating("SpawnEnemyShooter", enemyShooterSpawnStart, enemyShooterSpawnInterval);
         InvokeRepeating("SpawnPowerUp", powerUpSpawnStart, powerUpSpawnInterval);
@@ -119,5 +132,25 @@ public class GameManager : MonoBehaviour
     {
         Vector3 powerUpSpawnPos = new Vector3(Random.Range(-playerControl.xBound, playerControl.xBound), 0.7f, 7f);
         return powerUpSpawnPos;
+    }
+    public void SetDifficultyMedium()
+    {
+        maxHealth = 3;
+        playerControl.health = maxHealth;
+        enemySeekerSpawnInterval = 1f;
+        enemyShooterSpawnInterval = 3f;
+        powerUpSpawnInterval = 10f;
+        if (playerControl.health > maxHealth)
+        {
+            playerControl.health = 3;
+        }
+    }
+    public void SetDifficultyHard()
+    {
+        maxHealth = 1;
+        playerControl.health = maxHealth;
+        enemySeekerSpawnInterval = 1f;
+        enemyShooterSpawnInterval = 2f;
+        powerUpSpawnInterval = 15f;
     }
 }
