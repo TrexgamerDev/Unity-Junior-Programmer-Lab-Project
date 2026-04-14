@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7945971819624722309}
   - component: {fileID: 7716277502624052405}
   - component: {fileID: 5485685183034379610}
-  - component: {fileID: 5367205429193390592}
   - component: {fileID: 4968086493595440904}
+  - component: {fileID: -2537372433492412550}
   m_Layer: 0
   m_Name: Enemy2
   m_TagString: EnemyShooter
@@ -115,22 +115,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4, y: 3.1, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &5367205429193390592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4584320641770757067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfe531081432e924e842b303cacee721, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  bulletPrefab: {fileID: 4913324448829165949, guid: 0acfa09ffa999d94681c6dc6a5555eb0, type: 3}
-  gun: {fileID: 820197871346642472}
-  gunShot: {fileID: 2854793450680256670}
-  enemyAnimator: {fileID: 6078328729360395503}
 --- !u!54 &4968086493595440904
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -158,6 +142,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2537372433492412550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584320641770757067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c8bfbdf967b944d8daf0cc8906a608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyShooter
+  bulletPrefab: {fileID: 4913324448829165949, guid: 0acfa09ffa999d94681c6dc6a5555eb0, type: 3}
+  gun: {fileID: 820197871346642472}
+  gunShot: {fileID: 2854793450680256670}
+  enemyAnimator: {fileID: 6078328729360395503}
 --- !u!1001 &6078328729350904207
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,36 +4,28 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    float speed = 8.5f;
-    float bulletSpeed = 30f;
-    float enemyShotRate = 1f;
-    float enemyShootingStartDelay = 2f;
-    float zBound = 14f;
-    GameObject player;
-    PlayerControl playerControl;
-    GameManager gameManager;
-    public GameObject bulletPrefab;
-    [SerializeField]
-    GameObject gun;
-    [SerializeField]
-    AudioSource gunShot;
-    public Animator enemyAnimator;
+    protected float speed = 8.5f;
+    protected float bulletSpeed = 30f;
+    protected float enemyShotRate = 1f;
+    protected float enemyShootingStartDelay = 2f;
+    protected float zBound = 14f;
+    protected float xBound = 10f;
+    protected GameObject player;
+    protected PlayerControl playerControl;
+    protected GameManager gameManager;
+    // ENCAPSULATION
+    [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected GameObject gun;
+    [SerializeField] protected AudioSource gunShot;
+    [SerializeField] protected Animator enemyAnimator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         player = GameObject.Find("Player");
         playerControl = player.GetComponent<PlayerControl>();
-        StartCoroutine(ShootRoutine());
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        DestroyOutOfBounds();
-        MoveObjects();
-    }
-    private void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
         if (gameObject.CompareTag("PlayerBullet"))
         {
@@ -50,7 +42,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void MoveObjects()
+    protected void MoveObjects()
     {
         if (gameObject.CompareTag("EnemySeeker") && gameManager.isGameActive)
         {
@@ -65,7 +57,19 @@ public class Enemy : MonoBehaviour
             transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
         }
     }
-    IEnumerator ShootRoutine()
+    protected void DestroyOutOfBounds()
+    {
+        // Set the X and Z axis bounds and destroy object if it goes out of bounds
+        if (transform.position.x > xBound || transform.position.x < -xBound)
+        {
+            Destroy(gameObject);
+        }
+        if (transform.position.z > zBound || transform.position.z < -zBound)
+        {
+            Destroy(gameObject);
+        }
+    }
+    protected IEnumerator ShootRoutine()
     {
         yield return new WaitForSeconds(enemyShootingStartDelay);
         while (gameObject.CompareTag("EnemyShooter") && gameManager.isGameActive)
@@ -76,18 +80,6 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             enemyAnimator.SetBool("Shoot_b", false);
             yield return new WaitForSeconds(enemyShotRate);
-        }
-    }
-    void DestroyOutOfBounds()
-    {
-        // Set the X and Z axis bounds and destroy object if it goes out of bounds
-        if (transform.position.x > playerControl.xBound || transform.position.x < -playerControl.xBound)
-        {
-            Destroy(gameObject);
-        }
-        if (transform.position.z > zBound || transform.position.z < -zBound)
-        {
-            Destroy(gameObject);
         }
     }
 }

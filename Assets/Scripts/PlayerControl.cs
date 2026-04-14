@@ -9,16 +9,12 @@ public class PlayerControl : MonoBehaviour
     float speed = 15f;
     public float health = 3;
     public float xBound = 10f;
-    public GameObject bulletPrefab;
-    public GameManager gameManager;
-    [SerializeField]
-    GameObject gun;
-    [SerializeField]
-    Animator playerAnimator;
-    [SerializeField]
-    AudioSource gunShot;
-    [SerializeField]
-    ParticleSystem speedUpParticle;
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameManager gameManager;
+    [SerializeField] GameObject gun;
+    [SerializeField] Animator playerAnimator;
+    [SerializeField] AudioSource gunShot;
+    [SerializeField] ParticleSystem speedUpParticle;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

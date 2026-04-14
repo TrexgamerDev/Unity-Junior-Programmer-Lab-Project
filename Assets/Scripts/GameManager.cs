@@ -41,11 +41,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerControl.health <= 0 || score < 0)
-        {
-            gameOverScreen.gameObject.SetActive(true);
-            isGameActive = false;
-        }
+        CheckIfIsAlive();
         if (isGameActive && playerControl.health > 0 && Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
@@ -54,12 +50,25 @@ public class GameManager : MonoBehaviour
         {
             UnpauseGame();
         }
+        LimitHealth();
+        scoreText.text = "Score: " + score;
+        healthText.text = "Health: " + playerControl.health;
+    }
+    // ABSTRACTION
+    void CheckIfIsAlive()
+    {
+        if (playerControl.health <= 0 || score < 0)
+        {
+            gameOverScreen.gameObject.SetActive(true);
+            isGameActive = false;
+        }
+    }
+    void LimitHealth()
+    {
         if (playerControl.health > maxHealth && maxHealth != 0)
         {
             playerControl.health = maxHealth;
         }
-        scoreText.text = "Score: " + score;
-        healthText.text = "Health: " + playerControl.health;
     }
     public void StartGame(int difficulty)
     {
