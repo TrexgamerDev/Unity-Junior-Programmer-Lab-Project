@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,15 +14,22 @@ public class GameManager : MonoBehaviour
     float powerUpSpawnInterval = 7f;
     float powerUpSpawnStart = 15f;
     float maxHealth;
+    float time = 60;
     PlayerControl playerControl;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI healthText;
+    [SerializeField] 
+    TextMeshProUGUI scoreText;
+    [SerializeField]
+    TextMeshProUGUI healthText;
+    [SerializeField]
+    TextMeshProUGUI timerText;
     [SerializeField]
     GameObject titleScreen;
     [SerializeField]
     GameObject pauseScreen;
     [SerializeField]
     GameObject gameOverScreen;
+    [SerializeField]
+    GameObject winScreen;
     [SerializeField]
     GameObject enemySeekerPrefab;
     [SerializeField]
@@ -42,6 +50,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         CheckIfIsAlive();
+        CheckTime();
         if (isGameActive && playerControl.health > 0 && Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
@@ -53,6 +62,7 @@ public class GameManager : MonoBehaviour
         LimitHealth();
         scoreText.text = "Score: " + score;
         healthText.text = "Health: " + playerControl.health;
+        timerText.text = "Time: " + time;
     }
     // ABSTRACTION
     void CheckIfIsAlive()
@@ -60,6 +70,14 @@ public class GameManager : MonoBehaviour
         if (playerControl.health <= 0 || score < 0)
         {
             gameOverScreen.gameObject.SetActive(true);
+            isGameActive = false;
+        }
+    }
+    void CheckTime()
+    {
+        if (time <=0)
+        {
+            winScreen.gameObject.SetActive(true);
             isGameActive = false;
         }
     }
@@ -72,6 +90,8 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame(int difficulty)
     {
+        isGameActive = true;
+        titleScreen.gameObject.SetActive(false);
         if (difficulty == 1) { SetDifficultyMedium(); }
         else if (difficulty == 2) { SetDifficultyHard(); }
         else
@@ -82,8 +102,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnEnemySeeker", enemySeekerSpawnStart, enemySeekerSpawnInterval);
         InvokeRepeating("SpawnEnemyShooter", enemyShooterSpawnStart, enemyShooterSpawnInterval);
         InvokeRepeating("SpawnPowerUp", powerUpSpawnStart, powerUpSpawnInterval);
-        isGameActive = true;
-        titleScreen.gameObject.SetActive(false);
+        StartCoroutine(TimeCountdownRoutine());
     }
     public void RestartGame()
     {
@@ -161,5 +180,13 @@ public class GameManager : MonoBehaviour
         enemySeekerSpawnInterval = 1f;
         enemyShooterSpawnInterval = 2f;
         powerUpSpawnInterval = 15f;
+    }
+    IEnumerator TimeCountdownRoutine()
+    {
+        while (isGameActive)
+        {
+            yield return new WaitForSeconds(1);
+            time--;
+        }
     }
 }
